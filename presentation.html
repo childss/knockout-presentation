@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Knockout.js</title>
+    <meta name="viewport" content="width=1024, user-scalable=no">
+
+    <link rel="stylesheet" href="deck/core/deck.core.css" type="text/css">
+
+
+    <link rel="stylesheet" href="deck/themes/style/web-2.0.css" type="text/css">
+    <link rel="stylesheet" href="deck/themes/transition/horizontal-slide.css" type="text/css">
+
+    <!-- Any other extension CSS files go here. -->
+    <link rel="stylesheet" href="deck/extensions/goto/deck.goto.css" type="text/css">
+    <link rel="stylesheet" href="deck/extensions/hash/deck.hash.css" type="text/css">
+    <link rel="stylesheet" href="deck/extensions/menu/deck.menu.css" type="text/css">
+    <link rel="stylesheet" href="deck/extensions/navigation/deck.navigation.css" type="text/css">
+    <link rel="stylesheet" href="deck/extensions/status/deck.status.css" type="text/css">
+
+    <script src="lib/modernizr.custom.js"></script>
+</head>
+<body class="deck-container">
+
+<!-- Create any number of elements with class slide within the container -->
+<section class="slide" id="start">
+    <h1>Knockout</h1>
+</section>
+
+<section class="slide" id="intro">
+    <h2>Knockout</h2>
+
+    <p>A pure JavaScript (no dependencies of its own) library for building and maintaining consistent, dynamic UIs tied
+        to an underlying data model.</p>
+    <section class="slide" id="intro-mvvm">
+        <h3>MVVM</h3>
+
+        <p><em>Model-View-View Model</em>:</p>
+        <ul>
+            <li class="slide" id="intro-mvvm-model"><strong>Model</strong> Simple data model, usually JSON data.</li>
+            <li class="slide" id="intro-mvvm-viewmodel"><strong>View Model</strong> Pure JS representation of the data
+                and operations for a UI (e.g. data properties, mutators, event handlers).
+            </li>
+            <li class="slide" id="intro-mvvm-view"><strong>View</strong> The UI! Standard interface markup (i.e. HTML or
+                a template language) with bindings to the view model.
+            </li>
+        </ul>
+    </section>
+</section>
+
+<section class="slide" id="intro-bindings">
+    <h2>Knockout</h2>
+
+    <h3>Declarative Bindings</h3>
+    <section class="slide" id="intro-bindings-binding">
+        <p style="font-size: xx-small;">Example shamelessly stolen from the Knockout documentation.</p>
+
+        <p>A simple binding:</p>
+        <pre>The name is &lt;span data-bind="text: personName"&gt;&lt;/span&gt;</pre>
+    </section>
+    <section class="slide" id="intro-bindings-viewmodel">
+        <p>And a corresponding <em>view model</em>:</p>
+    <pre>var myViewModel = {
+    personName: 'Bob',
+    personAge: 123
+};</pre>
+    </section>
+    <section class="slide" id="intro-bindings-result">
+        <p>And the expected result:</p>
+        <pre>The name is &lt;span&gt;Bob&lt;/span&gt;</pre>
+    </section>
+</section>
+
+<section class="slide" id="intro-activation">
+    <h2>Knockout</h2>
+
+    <h3>Declarative Bindings</h3>
+
+    <p>Sadly, unicorns are not present in Knockout and bindings have to be activated manually.</p>
+    <section class="slide" id="intro-activation-code">
+        <p>Fortunately, activation is easy for humans and non-mono-horned animals:</p>
+        <pre>ko.applyBindings(myViewModel);</pre>
+    </section>
+    <section class="slide" id="intro-activation-optional">
+        <p>The <code>ko.applyBindings</code> function also takes an optional second parameter:</p>
+        <pre>var region = document.getElementById('container2');
+ko.applyBindings(myViewModel, region);</pre>
+        <p>Only searches the node and its descendants for data-bind attributes.</p>
+    </section>
+</section>
+
+<section class="slide" id="intro-observables">
+    <h2>Knockout</h2>
+
+    <h3>Observables</h3>
+    <section class="slide" id="intro-observables-updates">
+        <p>Enable automatic updates to the <em>view</em> based on changes made to the <em>view model</em>.</p>
+    </section>
+    <section class="slide" id="intro-observables-functions">
+        <p>Observables (i.e. the result of <code>ko.observable()</code>) are <strong>functions</strong></p>
+        <ul>
+            <li class="slide" id="intro-observables-functions-read"><strong>Read</strong> a property by calling the
+                function with no parameters
+                <pre>var prop = ko.observable(123);
+return prop(); // returns 123</pre>
+            </li>
+            <li class="slide" id="intro-observables-functions-write"><strong>Write</strong> a property by calling the
+                function with the new value
+                <pre>var prop = ko.observable(123);
+prop(456);
+return prop(); // returns 456</pre>
+            </li>
+        </ul>
+    </section>
+    <section class="slide" id="intro-observables-subscriptions">
+        <p>Event listeners/handlers. <em>View</em> bindings subscribe to an observable.</p>
+    </section>
+</section>
+
+<section class="slide" id="intro-observablearrays">
+    <h2>Knockout</h2>
+
+    <h3>Special Note: Observable Arrays</h3>
+
+    <section class="slide" id="intro-observablearrays-about">
+        <p>Observables arrays have slightly different syntax.</p>
+        <pre>var elements = ko.observableArray();
+elements.push(1);</pre>
+        <p>Note the lack of <code>()</code> at the end of <code>elements</code>.</p>
+    </section>
+    <section class="slide" id="intro-observablearrays-functions">
+        <p>Knockout's <code>observableArray</code> wrapper exposes the typical array functions (push, pop, sort, etc.).
+        </p>
+    </section>
+</section>
+
+<section class="slide" id="intro-observablearrays-more">
+    <h2>Knockout</h2>
+
+    <h3>Special Note: Observable Arrays</h3>
+
+    <p>The underlying array object is still retrieved in the usual way:</p>
+    <pre>var observableElements = ko.observableArray();
+var elements = observableElements();</pre>
+
+    <section class="slide" id="intro-observablearrays-caution">
+        <p>Be sure you intend to access the underlying array however:</p>
+        <pre>observableElements().push(1);</pre>
+    </section>
+    <p class="slide" id="intro-observablearrays-noupdate">The above <em>would</em> insert a new element into the array but <em>would not trigger a dependency update</em>.</p>
+</section>
+
+<section class="slide" id="intro-observables-dependencies">
+    <h2>Knockout</h2>
+
+    <h3>Observables: Dependencies</h3>
+    <section class="slide" id="intro-observables-dependencies-tracking">
+        <p>Observables also implement a dependency tracking scheme.</p>
+        <ul>
+            <li class="slide" id="intro-observables-dependencies-cascade">Allows updates to cascade up a dependency
+                hierarchy
+            </li>
+            <li class="slide" id="intro-observables-dependencies-consistency">Helps maintain consistent <em>view</em>
+                state
+            </li>
+        </ul>
+    </section>
+    <section class="slide" id="intro-observables-dependencies-computeds">
+        <p>Not just for <em>views</em>! <em>View models</em> can also make use of dependencies via <em>computed observables</em>.</p>
+    </section>
+</section>
+<section class="slide" id="intro-observables-dependencies-computedobservable">
+    <h2>Knockout</h2>
+    <h3>Observables: Dependencies</h3>
+
+    <p>Canonical example:</p>
+    <pre>var viewModel = {
+    firstName = ko.observable('Stuart');
+    lastName = ko.observable('Childs');
+    fullName = ko.computed(function() {
+        return this.firstName() + ' ' + this.lastName();
+    });</pre>
+    <section class="slide" id="intro-observables-dependencies-evaluation">
+        <p>Calling <code>ko.computedObservable</code> invokes the function immediately for initial value and makes note
+            of any other <em>observables</em> referenced in the execution path.</p>
+    </section>
+    <section class="slide" id="intro-observables-dependencies-reevaluation">
+        <p>Dependencies are re-evaluated every time the <em>computed observable</em> runs.</p>
+    </section>
+</section>
+
+<section class="slide" id="intro-observables-how">
+    <h2>Knockout</h2>
+    <h3>F'ING OBSERVABLES HOW DO THEY WORK?</h3>
+    <section class="slide" id="intro-observables-template">
+        <p>Given a <em>view model</em> with an <em>observable array</em> of "Person" <em>view model</em> elements:</p>
+        <pre><% _.each(people(), function(person) { %>
+    &lt;li&gt;
+        <b><%= person.name %></b> is <%= person.age %> years old
+    &lt;/li&gt;
+<% }) %></pre>
+    </section>
+</section>
+
+<section class="slide" id="advanced">
+    <h2>Knockout</h2>
+    <h3>Experimental topic!</h3>
+
+    <p class="slide" id="advanced-reuse">Data binding with <em>view models</em> promotes code reuse.</p>
+    <p class="slide" id="advanced-tags">The <code>data-bind</code> tags are verbose and duplicate-y.</p>
+    <section class="slide" id="advanced-example"><pre>&lt;select id="managementCompanyDropdown" data-bind="options: managementCompanies, optionsText: 'name', optionsValue: 'id' ..."&gt;</pre></section>
+    <p class="slide" id="advanced-data-css">What if we could take a hint from CSS?</p>
+</section>
+
+<section class="slide" id="advanced-data-class-provider">
+    <h2>Knockout</h2>
+    <h3>Enter: DataClassBindingProvider</h3>
+
+    <p>A way to combine <em>view models</em> and their <em>view</em> bindings into one reusable package.</p>
+    <section class="slide" id="advanced-data-class-viewmodel">
+        <p>Define a <em>view model</em> and place the bindings directly on the object in standard JSON:</p>
+        <pre>function PersonModel() {
+    var self = this;
+    self.firstName = ko.observable();
+    self.lastName = ko.observable();
+    self.fullName = ...
+    self.bindings = {
+        personFullName: { // This is the data-bind "class"
+            text: self.fullName
+        }
+    };
+}</pre>
+    </section>
+</section>
+<section class="slide" id="advanced-data-class-template">
+    <h2>Knockout</h2>
+    <h3>DataClassBindingProvider template/binding</h3>
+    <p>Next the HTML:</p>
+    <pre>&lt;span data-class="personFullName"&gt;&lt;/span&gt;</pre>
+    <section class="slide" id="advanced-data-class-binding">
+        <p>And finally, the code:</p>
+        <pre>// Somewhere before ko.applyBindings(),
+// likely in the init section of your script(s)
+ko.bindingProviders['dataClassProvider'].activate();
+
+// Activate ko bindings like normal
+ko.applyBindings(new PersonModel);</pre>
+    </section>
+</section>
+
+<section class="slide" id="advanced-data-class-override">
+    <h2>Knockout</h2>
+    <h3>One-off overrides</h3>
+
+    <p>Just like overriding CSS with a <code>style</code> attribute, override <code>data-class</code> bindings with <code>data-bind</code>.</p>
+    <section class="slide" id="advanced-data-class-override-example">
+        <pre>&lt;span data-class="personFullName" data-bind="text: firstName"&gt;&lt;/span&gt;</pre>
+    </section>
+
+    <ul>
+        <li class="slide" id="advanced-data-class-mix">Allows for mixing of standard Knockout with <code>data-class</code></li>
+        <li class="slide" id="advanced-data-class-fallback">Can fallback to standard <code>data-bind</code> if there are bugs (there are)</li>
+    </ul>
+</section>
+
+<!-- Other extension HTML snippets go here, at the bottom of the deck container. -->
+<form action="." method="get" class="goto-form">
+    <label for="goto-slide">Go to slide:</label>
+    <input type="text" name="slidenum" id="goto-slide" list="goto-datalist">
+    <datalist id="goto-datalist"></datalist>
+    <input type="submit" value="Go">
+</form>
+<a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+<a href="#" class="deck-next-link" title="Next">&#8594;</a>
+
+<p class="deck-status">
+    <span class="deck-status-current"></span>
+    /
+    <span class="deck-status-total"></span>
+</p>
+<a href="." title="Permalink to this slide" class="deck-permalink">#</a>
+
+<!-- Update these paths to point to the correct files. -->
+<script src="lib/jquery-1.7.2.min.js"></script>
+<script src="deck/core/deck.core.js"></script>
+
+<!-- Add any other extension JS files here -->
+<script src="deck/extensions/goto/deck.goto.js"></script>
+<script src="deck/extensions/hash/deck.hash.js"></script>
+<script src="deck/extensions/menu/deck.menu.js"></script>
+<script src="deck/extensions/navigation/deck.navigation.js"></script>
+<script src="deck/extensions/status/deck.status.js"></script>
+
+<!-- Initialize the deck. You can put this in an external file if desired. -->
+<script>
+    $(function() {
+        $.deck('.slide');
+    });
+</script>
+</body>
+</html>
